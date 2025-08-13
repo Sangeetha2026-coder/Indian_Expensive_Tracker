@@ -1,0 +1,25 @@
+Date: 13/8/2025
+Time: 14:29
+Phone Number: +911234567890
+Message: Hello! This is an automated message from Python 🚀
+--------------------
+Date: 13/8/2025
+Time: 14:53
+Phone Number: +918428310421
+Message: Your OTP is: 5715
+--------------------
+Date: 13/8/2025
+Time: 14:55
+Phone Number: +918428310421
+Message: Your OTP is: 8459
+--------------------
+Date: 13/8/2025
+Time: 14:58
+Phone Number: +91918428320421
+Message: Your OTP is: 4574
+--------------------
+Date: 13/8/2025
+Time: 15:1
+Phone Number: +918428320421
+Message: Your OTP is: 9322
+--------------------
