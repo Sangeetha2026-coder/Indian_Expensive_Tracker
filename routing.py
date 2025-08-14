@@ -3,12 +3,16 @@ from flask import Blueprint, request, jsonify,session
 from db import *
 import random
 import pywhatkit as kit
-
+from twilio.rest import Client
 import time
 
 bp=Blueprint("user",__name__)
 
+TWILIO_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_WHATSAPP = os.getenv("TWILIO_WHATSAPP")
 
+client = Client(TWILIO_SID, TWILIO_AUTH)
 
 
 @bp.route("/Signup",methods=['POST'])
@@ -28,12 +32,11 @@ def signup():
 @bp.route("/send_otp", methods=["POST"])
 def send_otp():
     data = request.get_json()
-    phone_number = str(data.get("phonenumber", "")).strip()  # Ensure string
+    phone_number = str(data.get("phonenumber", "")).strip()
 
     if not phone_number:
         return jsonify({"message": "Phone number is required"}), 400
 
-    # Auto-add +91 if not present
     if not phone_number.startswith("+"):
         phone_number = "+91" + phone_number
 
@@ -41,19 +44,15 @@ def send_otp():
     session["otp"] = otp
     session["phone"] = phone_number
 
-    # Current time + 1 minute for scheduling
-    now = time.localtime()
-    hour = int(time.strftime("%H", now))
-    minute = int(time.strftime("%M", now)) + 1
-
     try:
-        kit.sendwhatmsg(
-            phone_number,
-            f"Your OTP is: {otp}",
-            time_hour=hour,
-            time_min=minute
+        # Send WhatsApp OTP instantly via Twilio
+        client.messages.create(
+            from_=TWILIO_WHATSAPP,
+            body=f"Your OTP is: {otp}",
+            to=f"whatsapp:{phone_number}"
         )
-        return jsonify({"message": "OTP sent successfully"}), 200
+        return jsonify({f"message": "OTP sent successfully", "otp": otp}), 200
+
     except Exception as e:
         return jsonify({"message": f"Failed to send OTP: {str(e)}"}), 500
 
