@@ -29,3 +29,19 @@ def login_user(user):
     }
 
     return db.users.find_one(user) is not None
+
+
+
+
+def Indian_Expensive_Tracker():
+    Indian_Expensive_Tracker={
+        "Description": "A tracker for expensive items in India",
+        "Amount": 0,
+        "status": "active",
+        "start_Date": None,
+        "End_Date": None,
+        "Expecting_Amount":0,
+        "Current_Value":0,
+        "Total_Amount":0
+
+}
